@@ -14,7 +14,7 @@
         $id_akses=$SessionIdAkses;
         //Bersihkan Variabel
         $id_akses=validateAndSanitizeInput($id_akses);
-        $ImageLama=GetDetailData($Conn,'akses','id_akses',$id_akses,'image_akses');
+        $ImageLama=GetDetailData($Conn,'akses','id_akses',$id_akses,'foto');
         if(empty($_FILES['image_akses']['name'])){
             echo '<small class="text-danger">File Foto tidak boleh kosong</small>';
         }else{
@@ -35,7 +35,7 @@
                 if($ukuran_gambar<2000000){
                     if(move_uploaded_file($tmp_gambar, $path)){
                         $UpdateAkses = mysqli_query($Conn,"UPDATE akses SET 
-                            image_akses='$namabaru',
+                            foto='$namabaru',
                             datetime_update='$now'
                         WHERE id_akses='$id_akses'") or die(mysqli_error($Conn)); 
                         if($UpdateAkses){
@@ -43,18 +43,33 @@
                                 $file = '../../assets/img/User/'.$ImageLama.'';
                                 if (file_exists($file)) {
                                     if (unlink($file)) {
-                                        $_SESSION ["NotifikasiSwal"]="Ubah Foto Profil Berhasil";
-                                        echo '<small class="text-success" id="NotifikasiUbahFotoProfilBerhasil">Success</small>';
+                                        $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Profile','Edit Profile');
+                                        if($SimpanLog=="Success"){
+                                            $_SESSION ["NotifikasiSwal"]="Ubah Foto Profil Berhasil";
+                                            echo '<small class="text-success" id="NotifikasiUbahFotoProfilBerhasil">Success</small>';
+                                        }else{
+                                            echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log</small>';
+                                        }
                                     } else {
                                         echo '<span class="text-danger">Terjadi kesalahan pada saat menghapus foto lama</span>';
                                     }
                                 }else{
-                                    $_SESSION ["NotifikasiSwal"]="Ubah Foto Profil Berhasil";
-                                    echo '<small class="text-success" id="NotifikasiUbahFotoProfilBerhasil">Success</small>';
+                                    $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Profile','Edit Profile');
+                                    if($SimpanLog=="Success"){
+                                        $_SESSION ["NotifikasiSwal"]="Ubah Foto Profil Berhasil";
+                                        echo '<small class="text-success" id="NotifikasiUbahFotoProfilBerhasil">Success</small>';
+                                    }else{
+                                        echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log</small>';
+                                    }
                                 }
                             }else{
-                                $_SESSION ["NotifikasiSwal"]="Ubah Foto Profil Berhasil";
-                                echo '<small class="text-success" id="NotifikasiUbahFotoProfilBerhasil">Success</small>';
+                                $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Profile','Edit Profile');
+                                if($SimpanLog=="Success"){
+                                    $_SESSION ["NotifikasiSwal"]="Ubah Foto Profil Berhasil";
+                                    echo '<small class="text-success" id="NotifikasiUbahFotoProfilBerhasil">Success</small>';
+                                }else{
+                                    echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log</small>';
+                                }
                             }
                         }else{
                             echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan data akses</small>';

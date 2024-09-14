@@ -14,30 +14,6 @@
         echo '</div>';
     }else{
         $id_akses=$SessionIdAkses;
-        //Bersihkan Variabel
-        $id_akses=validateAndSanitizeInput($id_akses);
-        //Buka data askes
-        $nama_akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'nama_akses');
-        $kontak_akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'kontak_akses');
-        $email_akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'email_akses');
-        $image_akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'image_akses');
-        $akses=GetDetailData($Conn,'akses','id_akses',$id_akses,'akses');
-        $datetime_daftar=GetDetailData($Conn,'akses','id_akses',$id_akses,'datetime_daftar');
-        $datetime_update=GetDetailData($Conn,'akses','id_akses',$id_akses,'datetime_update');
-        //Jumlah
-        $JumlahAktivitas =mysqli_num_rows(mysqli_query($Conn, "SELECT id_akses FROM log WHERE id_akses='$id_akses'"));
-        $JumlahRole =mysqli_num_rows(mysqli_query($Conn, "SELECT * FROM akses_ijin WHERE id_akses='$id_akses'"));
-        //Format Tanggal
-        $strtotime1=strtotime($datetime_daftar);
-        $strtotime2=strtotime($datetime_update);
-        //Menampilkan Tanggal
-        $DateDaftar=date('d/m/Y H:i:s T', $strtotime1);
-        $DateUpdate=date('d/m/Y H:i:s T', $strtotime2);
-        if(!empty($image_akses)){
-            $image_akses=$image_akses;
-        }else{
-            $image_akses="No-Image.png";
-        }
 ?>
     <div class="row">
         <div class="col-md-12 mb-3">

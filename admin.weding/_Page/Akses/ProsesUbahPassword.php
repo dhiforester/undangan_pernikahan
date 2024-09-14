@@ -35,7 +35,7 @@
                         $password1=$_POST['password1'];
                         $password1=validateAndSanitizeInput($password1);
                         //md5
-                        $password1=MD5($password1);                           
+                        $password1=password_hash($password1, PASSWORD_BCRYPT);                          
                         $UpdateAkses = mysqli_query($Conn,"UPDATE akses SET 
                             password='$password1'
                         WHERE id_akses='$id_akses'") or die(mysqli_error($Conn)); 

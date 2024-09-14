@@ -5,6 +5,7 @@
     include "../../_Config/SettingGeneral.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
+    $now=date('Y-m-d H:i:s');
     //Harus Login Terlebih Dulu
     if(empty($SessionIdAkses)){
         echo '<small class="text-danger">Sesi Akses Sudah Berakhir, Silahkan Login Ulang!</small>';
@@ -14,8 +15,7 @@
         //Buka data askes
         $QryDetailAkses = mysqli_query($Conn,"SELECT * FROM akses WHERE id_akses='$id_akses'")or die(mysqli_error($Conn));
         $DataDetailAkses = mysqli_fetch_array($QryDetailAkses);
-        $kontak_akses_lama= $DataDetailAkses['kontak_akses'];
-        $email_akses_lama = $DataDetailAkses['email_akses'];
+        $email_akses_lama = $DataDetailAkses['email'];
         //Validasi Password tidak boleh kosong
         if(empty($_POST['password1'])){
             echo '<small class="text-danger">Password tidak boleh kosong</small>';
@@ -31,13 +31,18 @@
                     $password1=$_POST['password1'];
                     $password1=validateAndSanitizeInput($password1);
                     //md5
-                    $password1=MD5($password1);                           
+                    $password1=password_hash($password1, PASSWORD_BCRYPT);                             
                     $UpdateAkses = mysqli_query($Conn,"UPDATE akses SET 
                         password='$password1'
                     WHERE id_akses='$id_akses'") or die(mysqli_error($Conn)); 
                     if($UpdateAkses){
-                        $_SESSION ["NotifikasiSwal"]="Ubah Password Berhasil";
-                        echo '<small class="text-success" id="NotifikasiUbahPasswordProfilBerhasil">Success</small>';
+                        $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Profile','Ubah Password');
+                        if($SimpanLog=="Success"){
+                            $_SESSION ["NotifikasiSwal"]="Ubah Password Berhasil";
+                            echo '<small class="text-success" id="NotifikasiUbahPasswordProfilBerhasil">Success</small>';
+                        }else{
+                            echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log</small>';
+                        }
                     }else{
                         echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan data</small>';
                     }
