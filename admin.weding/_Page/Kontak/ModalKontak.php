@@ -28,7 +28,9 @@
                                 <option value="">Pilih</option>
                                 <option value="nama">Nama</option>
                                 <option value="kontak">Kontak</option>
-                                <option value="sumber">Sumber</option>
+                                <option value="email">Email</option>
+                                <option value="alamat">Alamat</option>
+                                <option value="kategori">Kategori</option>
                                 <option value="sudah_dihubungi">Status Dihubungi</option>
                             </select>
                         </div>
@@ -49,7 +51,9 @@
                                 <option value="">Pilih</option>
                                 <option value="nama">Nama</option>
                                 <option value="kontak">Kontak</option>
-                                <option value="sumber">Sumber</option>
+                                <option value="email">Email</option>
+                                <option value="alamat">Alamat</option>
+                                <option value="kategori">Kategori</option>
                                 <option value="sudah_dihubungi">Status Dihubungi</option>
                             </select>
                         </div>
@@ -84,7 +88,7 @@
                 <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col col-md-4">
-                            <label for="nama">Nama</label>
+                            <label for="nama">Nama Lengkap</label>
                         </div>
                         <div class="col-md-8">
                             <input type="text" name="nama" id="nama" class="form-control">
@@ -92,7 +96,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col col-md-4">
-                            <label for="kontak">Kontak</label>
+                            <label for="kontak">Kontak (WA)</label>
                         </div>
                         <div class="col-md-8">
                             <input type="text" name="kontak" id="kontak" class="form-control" placeholder="62">
@@ -100,20 +104,29 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col col-md-4">
-                            <label for="sumber">Sumber/Mitra</label>
+                            <label for="email">Email</label>
                         </div>
                         <div class="col-md-8">
-                            <select name="id_mitra" id="id_mitra" class="form-control">
-                                <option value="">Pilih</option>
-                                <?php
-                                    $query_mitra = mysqli_query($Conn, "SELECT id_mitra, nama FROM mitra ORDER BY nama ASC");
-                                    while ($data_mitra = mysqli_fetch_array($query_mitra)) {
-                                        $id_mitra= $data_mitra['id_mitra'];
-                                        $nama= $data_mitra['nama'];
-                                        echo '<option value="'.$id_mitra.'">'.$nama.'</option>';
-                                    }
-                                ?>
-                            </select>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="email@domain.com">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="alamat">Alamat</label>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea name="alamat" id="alamat" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col col-md-4">
+                            <label for="kategori">Kategori</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" name="kategori" id="kategori" class="form-control" list="ListKategori">
+                            <datalist id="ListKategori">
+                                <!-- List Kategori akan muncul disini -->
+                            </datalist>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -122,13 +135,14 @@
                         </div>
                         <div class="col-md-8">
                             <select name="sudah_dihubungi" id="sudah_dihubungi" class="form-control">
-                                <option value="0">Belum</option>
-                                <option value="1">Sudah</option>
+                                <option value="Belum">Belum</option>
+                                <option value="Sudah">Sudah</option>
                             </select>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-12 text-center">
+                        <div class="col col-md-4"></div>
+                        <div class="col-md-8">
                             <small class="credit">
                                 <code class="text-primary">Pastikan data kontak yang anda input sudah benar</code>
                             </small>
@@ -242,6 +256,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <form action="javascript:void(0);" id="ProsesImport">
+                <input type="hidden" id="currentRow" name="currentRow" value="1">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark"><i class="bi bi-upload"></i> Import Kontak</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -277,18 +292,28 @@
                                         <td><b>No</b></td>
                                         <td><b>Nama</b></td>
                                         <td><b>Kontak</b></td>
-                                        <td><b>Tanggal/Waktu</b></td>
-                                        <td><b>Proses</b></td>
+                                        <td><b>Email</b></td>
+                                        <td><b>Alamat</b></td>
+                                        <td><b>Kategori</b></td>
+                                        <td><b>Dihubungi</b></td>
+                                        <td><b>Resume</b></td>
                                     </tr>
                                 </thead>
                                 <tbody id="NotifikasiProsesImport">
                                     <tr>
-                                        <td align="center" colspan="7">
+                                        <td align="center" colspan="8">
                                             <b>Belum Ada Data Yang Diimport</b>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <small class="credit" id="ProgressProsesImport">
+                                <code class="text text-dark">Belum Ada Proses</code>
+                            </small>
                         </div>
                     </div>
                 </div>

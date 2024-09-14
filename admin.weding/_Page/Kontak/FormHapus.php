@@ -23,39 +23,50 @@
             $id_kontak=$_POST['id_kontak'];
             $id_kontak=validateAndSanitizeInput($id_kontak);
             //Buka Informasi
-            $datetime_import=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'datetime_import');
-            $id_anggota=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'id_anggota');
-            $email=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'email');
+            $uid_kontak=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'uid_kontak');
             $nama=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'nama');
+            $email=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'email');
             $kontak=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'kontak');
-            $sumber=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'sumber');
+            $kategori=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'kategori');
+            $alamat=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'alamat');
             $sudah_dihubungi=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'sudah_dihubungi');
-            if($sudah_dihubungi==1){
+            if($sudah_dihubungi=="Sudah"){
                 $LabelSudahDihubungi='<code class="badge bg-success">Sudah</code>';
             }else{
                 $LabelSudahDihubungi='<code class="badge bg-danger">Belum</code>';
             }
-            //Buka Nama Anggota
-            if(empty($id_anggota)){
-                $NamaAnggota='<code class="text-danger">None</code>';
+            //Buka kontak
+            if(empty($kontak)){
+                $LabelKontak='<code class="text-danger">None</code>';
             }else{
-                $NamaAnggota=GetDetailData($Conn,'anggota','id_anggota',$id_anggota,'nama');
-                $NamaAnggota='<code class="text-grayish">'.$NamaAnggota.'</code>';
+                $LabelKontak='<code class="text-grayish">'.$kontak.'</code>';
             }
             //Buka email
             if(empty($email)){
-                $EmailLabel='<code class="text-danger">None</code>';
+                $LabelEmail='<code class="text-danger">None</code>';
             }else{
-                $EmailLabel='<code class="text-grayish">'.$email.'</code>';
+                $LabelEmail='<code class="text-grayish">'.$email.'</code>';
             }
-            //Buka sumber
-            if(empty($sumber)){
-                $LabelSumber='<code class="text-danger">None</code>';
+            //Buka alamat
+            if(empty($alamat)){
+                $LabelAlamat='<code class="text-danger">None</code>';
             }else{
-                $LabelSumber='<code class="text-grayish">'.$sumber.'</code>';
+                $LabelAlamat='<code class="text-grayish">'.$alamat.'</code>';
+            }
+            //Buka kategori
+            if(empty($kategori)){
+                $LabelKategori='<code class="text-danger">None</code>';
+            }else{
+                $LabelKategori='<code class="text-grayish">'.$kategori.'</code>';
             }
 ?>
     <input type="hidden" name="id_kontak" value="<?php echo $id_kontak; ?>">
+    <div class="row mb-3">
+        <div class="col col-md-4">UUID Kontak</div>
+        <div class="col col-md-8">
+            <code class="text text-grayish"><?php echo $uid_kontak; ?></code>
+        </div>
+    </div>
     <div class="row mb-3">
         <div class="col col-md-4">Nama</div>
         <div class="col col-md-8">
@@ -65,13 +76,25 @@
     <div class="row mb-3">
         <div class="col col-md-4">Kontak</div>
         <div class="col col-md-8">
-            <code class="text text-grayish"><?php echo $kontak; ?></code>
+            <code class="text text-grayish"><?php echo $LabelKontak; ?></code>
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col col-md-4">Sumber</div>
+        <div class="col col-md-4">Email</div>
         <div class="col col-md-8">
-            <?php echo $LabelSumber; ?>
+            <code class="text text-grayish"><?php echo $LabelEmail; ?></code>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col col-md-4">Alamat</div>
+        <div class="col col-md-8">
+            <code class="text text-grayish"><?php echo $LabelAlamat; ?></code>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col col-md-4">Kategori</div>
+        <div class="col col-md-8">
+            <code class="text text-grayish"><?php echo $kategori; ?></code>
         </div>
     </div>
     <div class="row mb-3">
@@ -81,19 +104,7 @@
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col col-md-4">Customer Service</div>
-        <div class="col col-md-8">
-            <?php echo $NamaAnggota; ?>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col col-md-4">Datetime</div>
-        <div class="col col-md-8">
-            <code class="text text-grayish"><?php echo $datetime_import; ?></code>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col col-md-12 text-center text-primary">
+        <div class="col col-md-12 text-primary">
             Apakah anda yakin akan menghapus data ini?
         </div>
     </div>

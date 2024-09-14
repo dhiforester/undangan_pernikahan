@@ -4,20 +4,20 @@
         echo '<input type="text" name="keyword" id="keyword" class="form-control">';
     }else{
         $keyword_by=$_POST['keyword_by'];
-        if($keyword_by=="sumber"){
+        if($keyword_by=="kategori"){
             echo '<select name="keyword" id="keyword" class="form-control">';
             echo '  <option value="">Pilih</option>';
-            $query = mysqli_query($Conn, "SELECT DISTINCT sumber FROM kontak ORDER BY sumber ASC");
+            $query = mysqli_query($Conn, "SELECT DISTINCT kategori FROM kontak ORDER BY kategori ASC");
             while ($data = mysqli_fetch_array($query)) {
-                $sumber= $data['sumber'];
-                echo '  <option value="'.$sumber.'">'.$sumber.'</option>';
+                $kategori= $data['kategori'];
+                echo '  <option value="'.$kategori.'">'.$kategori.'</option>';
             }
             echo '</select>';
         }else{
             if($keyword_by=="sudah_dihubungi"){
                 echo '<select name="keyword" id="keyword" class="form-control">';
-                echo '  <option value="0">Belum</option>';
-                echo '  <option value="1">Sudah</option>';
+                echo '  <option value="Belum">Belum</option>';
+                echo '  <option value="Sudah">Sudah</option>';
                 echo '</select>';
             }else{
                 echo '<input type="text" name="keyword" id="keyword" class="form-control">';

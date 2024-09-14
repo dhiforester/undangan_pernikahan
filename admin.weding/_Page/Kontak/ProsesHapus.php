@@ -23,10 +23,12 @@
                 $HapusKontak = mysqli_query($Conn, "DELETE FROM kontak WHERE id_kontak='$id_kontak'") or die(mysqli_error($Conn));
                 if($HapusKontak) {
                     //Apabila Ada File Foto Maka Di Hapus
-                    $KategoriLog="Kontak";
-                    $KeteranganLog="Hapus Kontak";
-                    include "../../_Config/InputLog.php";
-                    echo '<small class="text-success" id="NotifikasiHapusBerhasil">Success</small>';
+                    $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Kontak','Hapus Kontak');
+                    if($SimpanLog=="Success"){
+                        echo '<small class="text-success" id="NotifikasiHapusBerhasil">Success</small>';
+                    }else{
+                        echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log</small>';
+                    }
                 }else{
                     echo '<code class="text-danger">Terjadi kesalahan Pada Saat Menghapus Data</code>';
                 }

@@ -13,70 +13,74 @@
         if(empty($_POST['nama'])){
             echo '<code class="text-danger">Nama tidak boleh kosong</code>';
         }else{
-            //Validasi kontak tidak boleh kosong
-            if(empty($_POST['kontak'])){
-                echo '<code class="text-danger">Nomor kontak tidak boleh kosong</code>';
+            //Validasi kategori tidak boleh kosong
+            if(empty($_POST['kategori'])){
+                echo '<code class="text-danger">Kategori kontak tidak boleh kosong</code>';
             }else{
                 //Buat Variabel
                 $nama=$_POST['nama'];
-                $kontak=$_POST['kontak'];
+                if(empty($_POST['kontak'])){
+                    $kontak="";
+                }else{
+                    $kontak=$_POST['kontak'];
+                }
                 if(empty($_POST['email'])){
                     $email="";
                 }else{
                     $email=$_POST['email'];
                 }
-                if(empty($_POST['id_mitra'])){
-                    $id_mitra="0";
-                    $sumber="";
+                if(empty($_POST['alamat'])){
+                    $alamat="";
                 }else{
-                    $id_mitra=$_POST['id_mitra'];
-                    $sumber=GetDetailData($Conn,'mitra','id_mitra',$id_mitra,'nama');
+                    $alamat=$_POST['alamat'];
                 }
                 if(empty($_POST['sudah_dihubungi'])){
-                    $sudah_dihubungi="0";
+                    $sudah_dihubungi="Belum";
                 }else{
                     $sudah_dihubungi=$_POST['sudah_dihubungi'];
                 }
+                $kategori=$_POST['kategori'];
                 //Bersihkan Variabel
                 $nama=validateAndSanitizeInput($nama);
                 $kontak=validateAndSanitizeInput($kontak);
                 $email=validateAndSanitizeInput($email);
-                $sumber=validateAndSanitizeInput($sumber);
+                $alamat=validateAndSanitizeInput($alamat);
+                $kategori=validateAndSanitizeInput($kategori);
                 $sudah_dihubungi=validateAndSanitizeInput($sudah_dihubungi);
-                //Validasi Duplikat
-                $ValidasiKontakDuplikat=mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM kontak WHERE kontak='$kontak'"));
-                if(!empty($ValidasiKontakDuplikat)){
-                    echo '<code class="text-danger">Kontak yang anda masukan sudah ada sebelumnya</code>';
+                if (!ctype_digit($kontak) && strlen($kontak) > 20) {
+                    echo '<small class="text-danger">Kontak maksimal 20 karakter numerik</small>';
                 }else{
-                    //Validasi kontak tidak boleh lebih dari 20 karakter
-                    if(!preg_match("/^[^a-zA-Z ]*$/", $_POST['kontak'])){
-                        echo '<small class="text-danger">Kontak maksimal 20 karakter numerik</small>';
+                    if(strlen($kategori) > 50) {
+                        echo '<small class="text-danger">Kategori maksimal 50 karakter</small>';
                     }else{
+                        $uid_kontak=GenerateToken(36);
                         $Entry="INSERT INTO kontak (
-                            id_anggota,
-                            id_mitra,
-                            datetime_import,
+                            id_akses,
+                            uid_kontak,
                             nama,
                             email,
                             kontak,
-                            sumber,
+                            alamat,
+                            kategori,
                             sudah_dihubungi
                         ) VALUES (
-                            '0',
-                            '$id_mitra',
-                            '$now',
+                            '$SessionIdAkses',
+                            '$uid_kontak',
                             '$nama',
                             '$email',
                             '$kontak',
-                            '$sumber',
+                            '$alamat',
+                            '$kategori',
                             '$sudah_dihubungi'
                         )";
                         $Input=mysqli_query($Conn, $Entry);
                         if($Input){
-                            $KategoriLog="Kontak";
-                            $KeteranganLog="Tambah Kontak baru";
-                            include "../../_Config/InputLog.php";
-                            echo '<small class="text-success" id="NotifikasiTambahBerhasil">Success</small>';
+                            $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Kontak','Tambah Kontak');
+                            if($SimpanLog=="Success"){
+                                echo '<small class="text-success" id="NotifikasiTambahBerhasil">Success</small>';
+                            }else{
+                                echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log</small>';
+                            }
                         }else{
                             echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan data anggota</small>';
                         }

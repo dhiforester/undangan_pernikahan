@@ -23,19 +23,18 @@
             $id_kontak=$_POST['id_kontak'];
             $id_kontak=validateAndSanitizeInput($id_kontak);
             //Buka Informasi
-            $datetime_import=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'datetime_import');
-            $id_mitra=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'id_mitra');
-            $id_anggota=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'id_anggota');
-            $email=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'email');
+            $uid_kontak=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'uid_kontak');
             $nama=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'nama');
+            $email=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'email');
             $kontak=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'kontak');
-            $sumber=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'sumber');
+            $kategori=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'kategori');
+            $alamat=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'alamat');
             $sudah_dihubungi=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'sudah_dihubungi');
 ?>
     <input type="hidden" name="id_kontak" value="<?php echo $id_kontak; ?>">
     <div class="row mb-3">
         <div class="col col-md-4">
-            <label for="nama_edit">Nama</label>
+            <label for="nama_edit">Nama Lengkap</label>
         </div>
         <div class="col-md-8">
             <input type="text" name="nama" id="nama_edit" class="form-control" value="<?php echo $nama; ?>">
@@ -43,7 +42,7 @@
     </div>
     <div class="row mb-3">
         <div class="col col-md-4">
-            <label for="kontak_edit">Kontak</label>
+            <label for="kontak_edit">Kontak (WA)</label>
         </div>
         <div class="col-md-8">
             <input type="text" name="kontak" id="kontak_edit" class="form-control" placeholder="62" value="<?php echo $kontak; ?>">
@@ -51,24 +50,35 @@
     </div>
     <div class="row mb-3">
         <div class="col col-md-4">
-            <label for="sumber_edit">Sumber/Mitra</label>
+            <label for="email_edit">Email</label>
         </div>
         <div class="col-md-8">
-            <select name="id_mitra" id="id_mitra" class="form-control">
-                <option value="">Pilih</option>
+            <input type="email" name="email" id="email_edit" class="form-control" placeholder="email@domain.com" value="<?php echo $email; ?>">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col col-md-4">
+            <label for="alamat_edit">Alamat</label>
+        </div>
+        <div class="col-md-8">
+            <textarea name="alamat" id="alamat_edit" class="form-control"><?php echo $alamat; ?></textarea>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col col-md-4">
+            <label for="kategori_edit">Kategori</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" name="kategori" id="kategori_edit" class="form-control" list="ListKategoriEdit" value="<?php echo $kategori; ?>">
+            <datalist id="ListKategoriEdit">
                 <?php
-                    $query_mitra = mysqli_query($Conn, "SELECT id_mitra, nama FROM mitra ORDER BY nama ASC");
-                    while ($data_mitra = mysqli_fetch_array($query_mitra)) {
-                        $id_mitra_list= $data_mitra['id_mitra'];
-                        $nama_list= $data_mitra['nama'];
-                        if($id_mitra_list==$id_mitra){
-                            echo '<option selected value="'.$id_mitra_list.'">'.$nama_list.'</option>';
-                        }else{
-                            echo '<option value="'.$id_mitra_list.'">'.$nama_list.'</option>';
-                        }
+                    $QryKategori = mysqli_query($Conn, "SELECT kategori FROM kontak ORDER BY kategori ASC");
+                    while ($DataKategori = mysqli_fetch_array($QryKategori)) {
+                        $kategori= $DataKategori['kategori'];
+                        echo '<option value="'.$kategori.'">'.$kategori.'</option>';
                     }
                 ?>
-            </select>
+            </datalist>
         </div>
     </div>
     <div class="row mb-3">
@@ -77,8 +87,8 @@
         </div>
         <div class="col-md-8">
             <select name="sudah_dihubungi" id="sudah_dihubungi_edit" class="form-control">
-                <option <?php if($sudah_dihubungi=="1"){echo "selected";} ?> value="1">Sudah</option>
-                <option <?php if(empty($sudah_dihubungi)){echo "selected";} ?> value="0">Belum</option>
+                <option <?php if($sudah_dihubungi=="Belum"){echo "selected";} ?> value="Belum">Belum</option>
+                <option <?php if($sudah_dihubungi=="Sudah"){echo "selected";} ?> value="Sudah">Sudah</option>
             </select>
         </div>
     </div>

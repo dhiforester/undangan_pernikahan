@@ -9,137 +9,8 @@ function filterAndLoadTable() {
         }
     });
 }
-function ShowRekapKontak() {
-    $.ajax({
-        type: 'POST',
-        url: '_Page/Kontak/RekapKontak.php',
-        success: function(data) {
-            var chartData = JSON.parse(data);
-            var total = chartData.series.reduce((a, b) => a + b, 0);
-            var options = {
-                chart: {
-                    type: 'donut'
-                },
-                series: chartData.series,
-                labels: chartData.labels,
-                colors: ['#00E396', '#FF4560'],
-                plotOptions: {
-                    pie: {
-                        donut: {
-                            labels: {
-                                show: true,
-                                total: {
-                                    show: true,
-                                    label: 'Total',
-                                    formatter: function () {
-                                        return total;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                dataLabels: {
-                    enabled: true
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            };
-            var chart = new ApexCharts(document.querySelector("#RekapKontakBelumDihubungi"), options);
-            chart.render();
-        }
-    });
-}
-function RekapDistribusiKontak() {
-    $.ajax({
-        type: 'POST',
-        url: '_Page/Kontak/RekapDistribusiKontak.php',
-        success: function(data) {
-            var chartData = JSON.parse(data);
-            var total = chartData.series.reduce((a, b) => a + b, 0);
-            var options = {
-                chart: {
-                    type: 'donut'
-                },
-                series: chartData.series,
-                labels: chartData.labels,
-                colors: ['#00E396', '#FF4560'],
-                plotOptions: {
-                    pie: {
-                        donut: {
-                            labels: {
-                                show: true,
-                                total: {
-                                    show: true,
-                                    label: 'Total',
-                                    formatter: function () {
-                                        return total;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                dataLabels: {
-                    enabled: true
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            };
-            var chart = new ApexCharts(document.querySelector("#RekapDistribusiKontak"), options);
-            chart.render();
-        }
-    });
-}
-function RekapSumberKontak() {
-    $.ajax({
-        type: 'POST',
-        url: '_Page/Kontak/RekapSumberKontak.php',
-        success: function(data) {
-            var chartData = JSON.parse(data);
-            var total = chartData.series.reduce((a, b) => a + b, 0);
-            var options = {
-                chart: {
-                    type: 'donut'
-                },
-                series: chartData.series,
-                labels: chartData.labels,
-                colors: ['#00E396', '#FF4560'],
-                plotOptions: {
-                    pie: {
-                        donut: {
-                            labels: {
-                                show: true,
-                                total: {
-                                    show: true,
-                                    label: 'Total',
-                                    formatter: function () {
-                                        return total;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                dataLabels: {
-                    enabled: true
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            };
-            var chart = new ApexCharts(document.querySelector("#RekapSumberKontak"), options);
-            chart.render();
-        }
-    });
-}
 $(document).ready(function() {
     filterAndLoadTable();
-    ShowRekapKontak();
-    RekapDistribusiKontak();
-    RekapSumberKontak();
 });
 $('#keyword_by').change(function(){
     var keyword_by = $('#keyword_by').val();
@@ -165,6 +36,10 @@ $('#kontak').keypress(function(event) {
         return false;
     }
     return true;
+});
+//Modal Tambah Kontak
+$('#ModalTambah').on('show.bs.modal', function (e) {
+    $('#ListKategori').load('_Page/Kontak/ListKategori.php');
 });
 //Proses Tambah Anggota
 $('#ProsesTambah').submit(function(){
@@ -195,9 +70,6 @@ $('#ProsesTambah').submit(function(){
                 )
                 //Menampilkan Data
                 filterAndLoadTable();
-                ShowRekapKontak();
-                RekapDistribusiKontak();
-                RekapSumberKontak();
             }
         }
     });
@@ -256,9 +128,6 @@ $('#ProsesEdit').submit(function(){
                 )
                 //Menampilkan Data
                 filterAndLoadTable();
-                ShowRekapKontak();
-                RekapDistribusiKontak();
-                RekapSumberKontak();
             }
         }
     });
@@ -303,34 +172,78 @@ $('#ProsesHapus').submit(function(){
                 )
                 //Menampilkan Data
                 filterAndLoadTable();
-                ShowRekapKontak();
-                RekapDistribusiKontak();
-                RekapSumberKontak();
             }
         }
     });
 });
 //Proses Import
-$('#ProsesImport').submit(function(){
-    $('#NotifikasiProsesImport').html('<tr><td align="center" colspan="7">Loading...</td></tr>');
+var totalProcessed = 0; // Menyimpan jumlah data yang telah diproses
+var totalData = 0; // Menyimpan jumlah total data untuk impor
+
+function importDataKontak() {
+    var currentRow = $('#currentRow').val();
     var form = $('#ProsesImport')[0];
     var data = new FormData(form);
+    data.append('currentRow', currentRow);
+    data.append('totalProcessed', totalProcessed); // Kirim jumlah data yang telah diproses
+
     $.ajax({
-        type 	    : 'POST',
-        url 	    : '_Page/Kontak/ProsesImport.php',
-        data 	    :  data,
-        cache       : false,
-        processData : false,
-        contentType : false,
-        enctype     : 'multipart/form-data',
-        success     : function(data){
-            $('#NotifikasiProsesImport').html(data);
-            $("#ProsesFilter")[0].reset();
-            $('#page').val("1");
-            filterAndLoadTable();
-            ShowRekapKontak();
-            RekapDistribusiKontak();
-            RekapSumberKontak();
+        type: 'POST',
+        url: '_Page/Kontak/ProsesImport.php',
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        success: function(response) {
+            $('#NotifikasiProsesImport').append(response);
+
+            // Perbarui progress import
+            totalProcessed += 100; // Perkirakan 100 baris per batch
+            var progressPercentage = Math.min((totalProcessed / totalData) * 100, 100);
+            $('#ProgressProsesImport').html(
+                '<code class="text text-dark">Progress: ' + Math.round(progressPercentage) + '%</code>'
+            );
+
+            // Periksa jika masih ada data yang harus diimpor
+            if (response.indexOf('Lanjutkan') !== -1) {
+                // Perbarui baris saat ini untuk impor berikutnya
+                $('#currentRow').val(parseInt(currentRow) + 100);
+                importDataKontak(); // Panggil fungsi lagi untuk melanjutkan impor
+            } else {
+                $('#currentRow').val(1); // Reset nilai baris
+                totalProcessed = 0; // Reset jumlah data yang telah diproses
+                $("#ProsesFilter")[0].reset();
+                $('#ProgressProsesImport').html('<code class="text text-dark">Import Selesai</code>');
+                filterAndLoadTable();
+            }
         }
     });
+}
+
+// Fungsi untuk mendapatkan jumlah total data dari file Excel sebelum mulai impor
+function getTotalDataCount() {
+    var form = $('#ProsesImport')[0];
+    var data = new FormData(form);
+
+    $.ajax({
+        type: 'POST',
+        url: '_Page/Kontak/GetTotalData.php', // Buat file PHP untuk menghitung jumlah total data
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        success: function(response) {
+            totalData = parseInt(response); // Simpan jumlah total data untuk progres
+            importDataKontak(); // Mulai impor setelah mendapatkan jumlah total data
+        }
+    });
+}
+
+// Panggil fungsi getTotalDataCount saat form di-submit
+$('#ProsesImport').submit(function() {
+    $('#NotifikasiProsesImport').html(''); // Bersihkan tabel sebelum mulai import
+    $('#ProgressProsesImport').html('<code class="text text-dark">Loading...</code>');
+    getTotalDataCount(); // Dapatkan jumlah total data dan mulai impor
 });

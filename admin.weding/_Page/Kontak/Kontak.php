@@ -10,42 +10,9 @@
             ?>
         </div>
     </div>
-    
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header text-center">
-                    <b class="card-title">Kontak Sudah Dihubungi</b>
-                </div>
-                <div class="card-body" id="RekapKontakBelumDihubungi">
-                    
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header text-center">
-                    <b class="card-title">Kontak Terdistribusi</b>
-                </div>
-                <div class="card-body" id="RekapDistribusiKontak">
-                    
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header text-center">
-                    <b class="card-title">Sumber Kontak</b>
-                </div>
-                <div class="card-body" id="RekapSumberKontak">
-                    
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="card card_border">
+            <div class="card">
                 <div class="card-header">
                     <form action="javascript:void(0);" id="ProsesBatas">
                         <div class="row">

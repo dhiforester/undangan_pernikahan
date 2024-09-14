@@ -13,73 +13,68 @@
         if(empty($_POST['nama'])){
             echo '<code class="text-danger">Nama tidak boleh kosong</code>';
         }else{
-            //Validasi kontak tidak boleh kosong
-            if(empty($_POST['kontak'])){
-                echo '<code class="text-danger">Nomor kontak tidak boleh kosong</code>';
+            //Validasi id_kontak tidak boleh kosong
+            if(empty($_POST['id_kontak'])){
+                echo '<code class="text-danger">ID Kontak tidak boleh kosong</code>';
             }else{
-                //Validasi id_kontak tidak boleh kosong
-                if(empty($_POST['id_kontak'])){
-                    echo '<code class="text-danger">ID kontak tidak boleh kosong</code>';
+                //Validasi kategori tidak boleh kosong
+                if(empty($_POST['kategori'])){
+                    echo '<code class="text-danger">Kategori kontak tidak boleh kosong</code>';
                 }else{
                     //Buat Variabel
                     $id_kontak=$_POST['id_kontak'];
                     $nama=$_POST['nama'];
-                    $kontak=$_POST['kontak'];
+                    if(empty($_POST['kontak'])){
+                        $kontak="";
+                    }else{
+                        $kontak=$_POST['kontak'];
+                    }
                     if(empty($_POST['email'])){
                         $email="";
                     }else{
                         $email=$_POST['email'];
                     }
-                    if(empty($_POST['id_mitra'])){
-                        $id_mitra="";
-                        $sumber="";
+                    if(empty($_POST['alamat'])){
+                        $alamat="";
                     }else{
-                        $id_mitra=$_POST['id_mitra'];
-                        $sumber=GetDetailData($Conn,'mitra','id_mitra',$id_mitra,'nama');
+                        $alamat=$_POST['alamat'];
                     }
                     if(empty($_POST['sudah_dihubungi'])){
-                        $sudah_dihubungi="0";
+                        $sudah_dihubungi="Belum";
                     }else{
                         $sudah_dihubungi=$_POST['sudah_dihubungi'];
                     }
+                    $kategori=$_POST['kategori'];
                     //Bersihkan Variabel
-                    $id_kontak=validateAndSanitizeInput($id_kontak);
                     $nama=validateAndSanitizeInput($nama);
                     $kontak=validateAndSanitizeInput($kontak);
                     $email=validateAndSanitizeInput($email);
-                    $sumber=validateAndSanitizeInput($sumber);
+                    $alamat=validateAndSanitizeInput($alamat);
+                    $kategori=validateAndSanitizeInput($kategori);
                     $sudah_dihubungi=validateAndSanitizeInput($sudah_dihubungi);
-                    //Buka data lama
-                    $kontak_lama=GetDetailData($Conn,'kontak','id_kontak',$id_kontak,'kontak');
-                    //Validasi Duplikat
-                    if($kontak_lama==$kontak){
-                        $ValidasiKontakDuplikat=0;
+                    if (!ctype_digit($kontak) && strlen($kontak) > 20) {
+                        echo '<small class="text-danger">Kontak maksimal 20 karakter numerik</small>';
                     }else{
-                        $ValidasiKontakDuplikat=mysqli_num_rows(mysqli_query($Conn, "SELECT*FROM kontak WHERE kontak='$kontak'"));
-                    }
-                    
-                    if(!empty($ValidasiKontakDuplikat)){
-                        echo '<code class="text-danger">Kontak yang anda masukan sudah ada sebelumnya</code>';
-                    }else{
-                        //Validasi kontak tidak boleh lebih dari 20 karakter
-                        if(!preg_match("/^[^a-zA-Z ]*$/", $_POST['kontak'])){
-                            echo '<small class="text-danger">Kontak maksimal 20 karakter numerik</small>';
+                        if(strlen($kategori) > 50) {
+                            echo '<small class="text-danger">Kategori maksimal 50 karakter</small>';
                         }else{
-                            $Update = mysqli_query($Conn,"UPDATE kontak SET 
-                                id_mitra='$id_mitra',
+                            $UpdateKontak = mysqli_query($Conn,"UPDATE kontak SET 
                                 nama='$nama',
                                 email='$email',
                                 kontak='$kontak',
-                                sumber='$sumber',
+                                alamat='$alamat',
+                                kategori='$kategori',
                                 sudah_dihubungi='$sudah_dihubungi'
                             WHERE id_kontak='$id_kontak'") or die(mysqli_error($Conn)); 
-                            if($Update){
-                                $KategoriLog="Kontak";
-                                $KeteranganLog="Edit Kontak baru";
-                                include "../../_Config/InputLog.php";
-                                echo '<small class="text-success" id="NotifikasiEditBerhasil">Success</small>';
+                            if($UpdateKontak){
+                                $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Kontak','Edit Kontak');
+                                if($SimpanLog=="Success"){
+                                    echo '<small class="text-success" id="NotifikasiEditBerhasil">Success</small>';
+                                }else{
+                                    echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log</small>';
+                                }
                             }else{
-                                echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan data kontak</small>';
+                                echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan data anggota</small>';
                             }
                         }
                     }
