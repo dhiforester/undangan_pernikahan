@@ -5,6 +5,7 @@
     include "../../_Config/SettingGeneral.php";
     include "../../_Config/GlobalFunction.php";
     include "../../_Config/Session.php";
+    $now=date('Y-m-d H:i:s');
     //Harus Login Terlebih Dulu
     if(empty($SessionIdAkses)){
         echo '<small class="text-danger">Sesi Akses Sudah Berakhir, Silahkan Login Ulang!</small>';
@@ -39,7 +40,12 @@
                             password='$password1'
                         WHERE id_akses='$id_akses'") or die(mysqli_error($Conn)); 
                         if($UpdateAkses){
-                            echo '<small class="text-success" id="NotifikasiUbahPasswordBerhasil">Success</small>';
+                            $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Akses','Ubah Password Akses');
+                            if($SimpanLog=="Success"){
+                                echo '<small class="text-success" id="NotifikasiUbahPasswordBerhasil">Success</small>';
+                            }else{
+                                echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log</small>';
+                            }
                         }else{
                             echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan data</small>';
                         }

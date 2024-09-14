@@ -26,15 +26,30 @@
                     $file = '../../assets/img/User/'.$image_akses.'';
                     if (file_exists($file)) {
                         if (unlink($file)) {
-                            echo '<span class="text-success" id="NotifikasiHapusAksesBerhasil">Success</span>';
+                            $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Akses','Hapus Akses');
+                            if($SimpanLog=="Success"){
+                                echo '<small class="text-success" id="NotifikasiHapusAksesBerhasil">Success</small>';
+                            }else{
+                                echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log</small>';
+                            }
                         } else {
                             echo '<span class="text-danger">Terjadi kesalahan pada saat menghapus file</span>';
                         }
                     }else{
-                        echo '<span class="text-success" id="NotifikasiHapusAksesBerhasil">Success</span>';
+                        $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Akses','Hapus Akses');
+                        if($SimpanLog=="Success"){
+                            echo '<small class="text-success" id="NotifikasiHapusAksesBerhasil">Success</small>';
+                        }else{
+                            echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log</small>';
+                        }
                     }
                 }else{
-                    echo '<span class="text-success" id="NotifikasiHapusAksesBerhasil">Success</span>';
+                    $SimpanLog=addLog($Conn,$SessionIdAkses,$now,'Akses','Hapus Akses');
+                    if($SimpanLog=="Success"){
+                        echo '<small class="text-success" id="NotifikasiHapusAksesBerhasil">Success</small>';
+                    }else{
+                        echo '<small class="text-danger">Terjadi kesalahan pada saat menyimpan log</small>';
+                    }
                 }
             }else{
                 echo '<span class="text-danger">Hapus Data Gagal</span>';
