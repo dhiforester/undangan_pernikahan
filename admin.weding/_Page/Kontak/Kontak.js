@@ -247,3 +247,132 @@ $('#ProsesImport').submit(function() {
     $('#ProgressProsesImport').html('<code class="text text-dark">Loading...</code>');
     getTotalDataCount(); // Dapatkan jumlah total data dan mulai impor
 });
+//Modal Hapus Multi Muncul
+$('#ModalHapusMulti').on('show.bs.modal', function (e) {
+    var ProsesTabelKontak=$('#ProsesTabelKontak').serialize();
+    $('#FormHapusMulti').html("Loading...");
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Kontak/FormHapusMulti.php',
+        data        : ProsesTabelKontak,
+        success     : function(data){
+            $('#FormHapusMulti').html(data);
+        }
+    });
+});
+//Proses Hapus Kontak Mutli
+$('#KonfirmasiHapusKontakMulti').click(function(){
+    $('#NotifikasiHapusMulti').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
+    var form = $('#ProsesTabelKontak')[0];
+    var data = new FormData(form);
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Kontak/ProsesHapusMulti.php',
+        data 	    :  data,
+        cache       : false,
+        processData : false,
+        contentType : false,
+        enctype     : 'multipart/form-data',
+        success     : function(data){
+            $('#NotifikasiHapusMulti').html(data);
+            var NotifikasiHapusMultiBerhasil=$('#NotifikasiHapusMultiBerhasil').html();
+            if(NotifikasiHapusMultiBerhasil=="Success"){
+                $('#NotifikasiHapusMulti').html('');
+                $('#ModalHapusMulti').modal('hide');
+                Swal.fire(
+                    'Success!',
+                    'Hapus Kontak Berhasil!',
+                    'success'
+                )
+                //Menampilkan Data
+                filterAndLoadTable();
+            }
+        }
+    });
+});
+//Modal Ubah Kategori Multi Muncul
+$('#ModalUbahKategoriMulti').on('show.bs.modal', function (e) {
+    var ProsesTabelKontak=$('#ProsesTabelKontak').serialize();
+    $('#FormUbahKategoriMulti').html("Loading...");
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Kontak/FormUbahKategoriMulti.php',
+        data        : ProsesTabelKontak,
+        success     : function(data){
+            $('#FormUbahKategoriMulti').html(data);
+        }
+    });
+});
+//Proses Ubah Kategori Multi
+$('#ProsesUbahKategoriMulti').submit(function(){
+    $('#NotifikasiUbahKategoriMulti').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
+    var form = $('#ProsesUbahKategoriMulti')[0];
+    var data = new FormData(form);
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Kontak/ProsesUbahKategoriMulti.php',
+        data 	    :  data,
+        cache       : false,
+        processData : false,
+        contentType : false,
+        enctype     : 'multipart/form-data',
+        success     : function(data){
+            $('#NotifikasiUbahKategoriMulti').html(data);
+            var NotifikasiUbahKategoriMultiBerhasil=$('#NotifikasiUbahKategoriMultiBerhasil').html();
+            if(NotifikasiUbahKategoriMultiBerhasil=="Success"){
+                $('#NotifikasiUbahKategoriMulti').html('');
+                $('#ModalUbahKategoriMulti').modal('hide');
+                Swal.fire(
+                    'Success!',
+                    'Ubah Kategori Kontak Berhasil!',
+                    'success'
+                )
+                //Menampilkan Data
+                filterAndLoadTable();
+            }
+        }
+    });
+});
+//Modal Sudah Dihubungi
+$('#ModalSudahDihubungi').on('show.bs.modal', function (e) {
+    var ProsesTabelKontak=$('#ProsesTabelKontak').serialize();
+    $('#FormTandaiDihubungi').html("Loading...");
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Kontak/FormTandaiDihubungi.php',
+        data        : ProsesTabelKontak,
+        success     : function(data){
+            $('#FormTandaiDihubungi').html(data);
+        }
+    });
+});
+//Proses Menandai Kontak Sudah Dihubungi
+$('#KonfirmasiTandaiDihubungi').click(function(){
+    $('#NotifikasiTandaiDihubungi').html('<div class="spinner-border text-secondary" role="status"><span class="sr-only"></span></div>');
+    var form = $('#ProsesTabelKontak')[0];
+    var data = new FormData(form);
+    $.ajax({
+        type 	    : 'POST',
+        url 	    : '_Page/Kontak/ProsesTandaiSudahDihubungi.php',
+        data 	    :  data,
+        cache       : false,
+        processData : false,
+        contentType : false,
+        enctype     : 'multipart/form-data',
+        success     : function(data){
+            $('#NotifikasiTandaiDihubungi').html(data);
+            var NotifikasiTandaiDihubungiBerhasil=$('#NotifikasiTandaiDihubungiBerhasil').html();
+            if(NotifikasiTandaiDihubungiBerhasil=="Success"){
+                $('#NotifikasiTandaiDihubungi').html('');
+                $('#ModalSudahDihubungi').modal('hide');
+                Swal.fire(
+                    'Success!',
+                    'Tandai Sudah Dihubungi Berhasil!',
+                    'success'
+                )
+                //Menampilkan Data
+                filterAndLoadTable();
+            }
+        }
+    });
+});

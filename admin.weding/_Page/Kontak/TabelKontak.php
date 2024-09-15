@@ -136,217 +136,221 @@
             }
         });
     </script>
-    <div class="row mb-3">
-        <div class="table table-responsive">
-            <table class="table table-hover table-striped">
-                <thead>
-                    <tr>
-                        <td align="center">
-                            <div class="form-check form-switch">
-                                <input type="checkbox" class="form-check-input" name="check_all" id="check_all" value="yes">
-                            </div>
-                        </td>
-                        <td align="left"><b>Nama</b></td>
-                        <td align="left"><b>Kontak</b></td>
-                        <td align="left"><b>Email</b></td>
-                        <td align="left"><b>Alamat</b></td>
-                        <td align="left"><b>Kategori</b></td>
-                        <td align="center"><b>Dihubungi</b></td>
-                        <td align="center"><b>Opsi</b></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        if(empty($jml_data)){
-                            echo '<tr>';
-                            echo '  <td colspan="8" class="text-center">';
-                            echo '      <code class="text-danger">';
-                            echo '          Tidak Ada Data Kontak Yang Dapat Ditampilkan';
-                            echo '      </code>';
-                            echo '  </td>';
-                            echo '</tr>';
-                        }else{
-                            $no = 1+$posisi;
-                            //KONDISI PENGATURAN MASING FILTER
-                            if(empty($keyword_by)){
-                                if(empty($keyword)){
-                                    $query = mysqli_query($Conn, "SELECT*FROM kontak ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
-                                }else{
-                                    $query = mysqli_query($Conn, "SELECT*FROM kontak WHERE nama like '%$keyword%' OR email like '%$keyword%' OR kontak like '%$keyword%' OR alamat like '%$keyword%' OR kategori like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
-                                }
+    <form action="javascript:void(0);" id="ProsesTabelKontak">
+        <div class="row mb-3">
+            <div class="table table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <td align="center">
+                                <div class="form-check form-switch">
+                                    <input type="checkbox" class="form-check-input" name="check_all" id="check_all" value="yes">
+                                </div>
+                            </td>
+                            <td align="left"><b>Nama</b></td>
+                            <td align="left"><b>Kontak</b></td>
+                            <td align="left"><b>Email</b></td>
+                            <td align="left"><b>Alamat</b></td>
+                            <td align="left"><b>Kategori</b></td>
+                            <td align="center"><b>Dihubungi</b></td>
+                            <td align="center"><b>Opsi</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            if(empty($jml_data)){
+                                echo '<tr>';
+                                echo '  <td colspan="8" class="text-center">';
+                                echo '      <code class="text-danger">';
+                                echo '          Tidak Ada Data Kontak Yang Dapat Ditampilkan';
+                                echo '      </code>';
+                                echo '  </td>';
+                                echo '</tr>';
                             }else{
-                                if(empty($keyword)){
-                                    $query = mysqli_query($Conn, "SELECT*FROM kontak ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                                $no = 1+$posisi;
+                                //KONDISI PENGATURAN MASING FILTER
+                                if(empty($keyword_by)){
+                                    if(empty($keyword)){
+                                        $query = mysqli_query($Conn, "SELECT*FROM kontak ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                                    }else{
+                                        $query = mysqli_query($Conn, "SELECT*FROM kontak WHERE nama like '%$keyword%' OR email like '%$keyword%' OR kontak like '%$keyword%' OR alamat like '%$keyword%' OR kategori like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                                    }
                                 }else{
-                                    $query = mysqli_query($Conn, "SELECT*FROM kontak WHERE $keyword_by like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                                    if(empty($keyword)){
+                                        $query = mysqli_query($Conn, "SELECT*FROM kontak ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                                    }else{
+                                        $query = mysqli_query($Conn, "SELECT*FROM kontak WHERE $keyword_by like '%$keyword%' ORDER BY $OrderBy $ShortBy LIMIT $posisi, $batas");
+                                    }
+                                }
+                                while ($data = mysqli_fetch_array($query)) {
+                                    $id_kontak= $data['id_kontak'];
+                                    $id_akses= $data['id_akses'];
+                                    $uid_kontak= $data['uid_kontak'];
+                                    $nama= $data['nama'];
+                                    $email= $data['email'];
+                                    $kontak= $data['kontak'];
+                                    $alamat= $data['alamat'];
+                                    $kategori= $data['kategori'];
+                                    $sudah_dihubungi= $data['sudah_dihubungi'];
+                                    if($sudah_dihubungi=="Sudah"){
+                                        $LabelSudahDihubungi='<span class="badge bg-success">Sudah</span>';
+                                    }else{
+                                        $LabelSudahDihubungi='<span class="badge bg-dark">Belum</span>';
+                                    }
+                                    //Buka kontak
+                                    if(empty($data['kontak'])){
+                                        $LabelKontak='<code class="text-grayish">None</code>';
+                                    }else{
+                                        $kontak=$data['kontak'];
+                                        $LabelKontak='<code class="text-dark">'.$kontak.'</code>';
+                                    }
+                                    //Buka email
+                                    if(empty($data['email'])){
+                                        $LabelEmail='<code class="text-grayish">None</code>';
+                                    }else{
+                                        $Email=$data['email'];
+                                        $LabelEmail='<code class="text-dark">'.$Email.'</code>';
+                                    }
+                                    //Buka alamat
+                                    if(empty($data['alamat'])){
+                                        $LabelAlamat='<small class="credit text-grayish">None</small>';
+                                    }else{
+                                        $alamat=$data['alamat'];
+                                        $LabelAlamat='<small class="credit text-dark">'.$alamat.'</small>';
+                                    }
+                                    //Buka kategori
+                                    if(empty($data['kategori'])){
+                                        $LabelKategori='<small class="credit text-grayish">None</small>';
+                                    }else{
+                                        $kategori=$data['kategori'];
+                                        $LabelKategori='<small class="credit text-dark">'.$kategori.'</small>';
+                                    }
+                                    $Pesan="$PesanTemplate URL:https://www.google.com";
+                                    $encodedMessage = urlencode($Pesan);
+                                    $whatsappUrl = "https://wa.me/{$kontak}?text={$encodedMessage}";
+                        ?>
+                                    <tr>
+                                        <td align="center">
+                                            <input type="checkbox" class="form-check-input check_id_kontak" name="check_id_kontak[]" value="<?php echo $id_kontak; ?>">
+                                        </td>
+                                        <td align="left">
+                                            <a href="javascript:void(0);" class="text text-info" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="<?php echo "$id_kontak"; ?>">
+                                                <small class="credit">
+                                                    <?php echo $nama; ?>
+                                                </small>
+                                            </a>
+                                        </td>
+                                        <td align="left">
+                                            <small class="credit">
+                                                <?php echo $LabelKontak; ?>
+                                            </small>
+                                        </td>
+                                        <td align="left">
+                                            <small class="credit">
+                                                <?php echo $LabelEmail; ?>
+                                            </small>
+                                        </td>
+                                        <td align="left">
+                                            <small class="credit">
+                                                <?php echo $LabelAlamat; ?>
+                                            </small>
+                                        </td>
+                                        <td align="left">
+                                            <small class="credit">
+                                                <?php echo $LabelKategori; ?>
+                                            </small>
+                                        </td>
+                                        <td align="center">
+                                            <small class="credit">
+                                                <?php echo $LabelSudahDihubungi; ?>
+                                            </small>
+                                        </td>
+                                        <td align="center">
+                                            <a class="btn btn-sm btn-outline-dark btn-rounded" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                                <li class="dropdown-header text-start">
+                                                    <h6>Option</h6>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="<?php echo "$id_kontak"; ?>">
+                                                        <i class="bi bi-info-circle"></i> Detail
+                                                    </a>
+                                                </li>
+                                                <?php if($sudah_dihubungi=="Belum"){ ?>
+                                                    <a href="<?php echo "$whatsappUrl"; ?>" target="_blank" class="dropdown-item" data-id="<?php echo "$id_kontak"; ?>">
+                                                        <i class="bi bi-whatsapp"></i> Kirim WA
+                                                    </a>
+                                                <?php } ?>
+                                                <li>
+                                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEdit" data-id="<?php echo "$id_kontak"; ?>">
+                                                        <i class="bi bi-pencil"></i> Edit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapus" data-id="<?php echo "$id_kontak"; ?>">
+                                                        <i class="bi bi-x"></i> Hapus
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                        <?php
+                                    $no++; 
                                 }
                             }
-                            while ($data = mysqli_fetch_array($query)) {
-                                $id_kontak= $data['id_kontak'];
-                                $id_akses= $data['id_akses'];
-                                $uid_kontak= $data['uid_kontak'];
-                                $nama= $data['nama'];
-                                $email= $data['email'];
-                                $kontak= $data['kontak'];
-                                $alamat= $data['alamat'];
-                                $kategori= $data['kategori'];
-                                $sudah_dihubungi= $data['sudah_dihubungi'];
-                                if($sudah_dihubungi=="Sudah"){
-                                    $LabelSudahDihubungi='<span class="badge bg-success">Sudah</span>';
-                                }else{
-                                    $LabelSudahDihubungi='<span class="badge bg-dark">Belum</span>';
-                                }
-                                //Buka kontak
-                                if(empty($data['kontak'])){
-                                    $LabelKontak='<code class="text-grayish">None</code>';
-                                }else{
-                                    $kontak=$data['kontak'];
-                                    $LabelKontak='<code class="text-dark">'.$kontak.'</code>';
-                                }
-                                //Buka email
-                                if(empty($data['email'])){
-                                    $LabelEmail='<code class="text-grayish">None</code>';
-                                }else{
-                                    $Email=$data['email'];
-                                    $LabelEmail='<code class="text-dark">'.$Email.'</code>';
-                                }
-                                //Buka alamat
-                                if(empty($data['alamat'])){
-                                    $LabelAlamat='<small class="credit text-grayish">None</small>';
-                                }else{
-                                    $alamat=$data['alamat'];
-                                    $LabelAlamat='<small class="credit text-dark">'.$alamat.'</small>';
-                                }
-                                //Buka kategori
-                                if(empty($data['kategori'])){
-                                    $LabelKategori='<small class="credit text-grayish">None</small>';
-                                }else{
-                                    $kategori=$data['kategori'];
-                                    $LabelKategori='<small class="credit text-dark">'.$kategori.'</small>';
-                                }
-                                $Pesan="$PesanTemplate URL:https://www.google.com";
-                                $encodedMessage = urlencode($Pesan);
-                                $whatsappUrl = "https://wa.me/{$kontak}?text={$encodedMessage}";
-                    ?>
-                                <tr>
-                                    <td align="center">
-                                        <input type="checkbox" class="form-check-input check_id_kontak" name="check_id_kontak" value="<?php echo $id_kontak; ?>">
-                                    </td>
-                                    <td align="left">
-                                        <small class="credit">
-                                            <?php echo $nama; ?>
-                                        </small>
-                                    </td>
-                                    <td align="left">
-                                        <small class="credit">
-                                            <?php echo $LabelKontak; ?>
-                                        </small>
-                                    </td>
-                                    <td align="left">
-                                        <small class="credit">
-                                            <?php echo $LabelEmail; ?>
-                                        </small>
-                                    </td>
-                                    <td align="left">
-                                        <small class="credit">
-                                            <?php echo $LabelAlamat; ?>
-                                        </small>
-                                    </td>
-                                    <td align="left">
-                                        <small class="credit">
-                                            <?php echo $LabelKategori; ?>
-                                        </small>
-                                    </td>
-                                    <td align="center">
-                                        <small class="credit">
-                                            <?php echo $LabelSudahDihubungi; ?>
-                                        </small>
-                                    </td>
-                                    <td align="center">
-                                        <a class="btn btn-sm btn-outline-dark btn-rounded" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-three-dots"></i>
+                        ?>
+                        <tr>
+                            <td colspan="8">
+                                <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots"></i> Option
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Option</h6>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEdit" data-id="<?php echo "$id_kontak"; ?>">
+                                            <i class="bi bi-send"></i> Kirim Undangan Via Email
                                         </a>
-                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                                            <li class="dropdown-header text-start">
-                                                <h6>Option</h6>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalDetail" data-id="<?php echo "$id_kontak"; ?>">
-                                                    <i class="bi bi-info-circle"></i> Detail
-                                                </a>
-                                            </li>
-                                            <?php if($sudah_dihubungi=="Belum"){ ?>
-                                                <a href="<?php echo "$whatsappUrl"; ?>" target="_blank" class="dropdown-item" data-id="<?php echo "$id_kontak"; ?>">
-                                                    <i class="bi bi-whatsapp"></i> Kirim WA
-                                                </a>
-                                            <?php } ?>
-                                            <li>
-                                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEdit" data-id="<?php echo "$id_kontak"; ?>">
-                                                    <i class="bi bi-pencil"></i> Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapus" data-id="<?php echo "$id_kontak"; ?>">
-                                                    <i class="bi bi-x"></i> Hapus
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                    <?php
-                                $no++; 
-                            }
-                        }
-                    ?>
-                    <tr>
-                        <td colspan="8">
-                            <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-three-dots"></i> Option
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                                <li class="dropdown-header text-start">
-                                    <h6>Option</h6>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEdit" data-id="<?php echo "$id_kontak"; ?>">
-                                        <i class="bi bi-send"></i> Kirim Undangan Via Email
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalEdit" data-id="<?php echo "$id_kontak"; ?>">
-                                        <i class="bi bi-check"></i> Tandai Sudah Dihubungi
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapus" data-id="<?php echo "$id_kontak"; ?>">
-                                        <i class="bi bi-tag"></i> Ubah Kategori
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapus" data-id="<?php echo "$id_kontak"; ?>">
-                                        <i class="bi bi-x"></i> Hapus Kontak
-                                    </a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 text-center mb-3">
-            <div class="btn-group shadow-0" role="group" aria-label="Basic example">
-                <button class="btn btn-sm btn-info" id="PrevPage" value="<?php echo $prev;?>">
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-info">
-                    <?php echo "$page of $JmlHalaman"; ?>
-                </button>
-                <button class="btn btn-sm btn-info" id="NextPage" value="<?php echo $next;?>">
-                    <i class="bi bi-chevron-right"></i>
-                </button>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalSudahDihubungi" data-id="<?php echo "$id_kontak"; ?>">
+                                            <i class="bi bi-phone-vibrate"></i> Tandai Sudah Dihubungi
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalUbahKategoriMulti">
+                                            <i class="bi bi-tag"></i> Ubah Kategori
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ModalHapusMulti">
+                                            <i class="bi bi-x"></i> Hapus Kontak
+                                        </a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-12 text-center mb-3">
+                <div class="btn-group shadow-0" role="group" aria-label="Basic example">
+                    <button class="btn btn-sm btn-info" id="PrevPage" value="<?php echo $prev;?>">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-info">
+                        <?php echo "$page of $JmlHalaman"; ?>
+                    </button>
+                    <button class="btn btn-sm btn-info" id="NextPage" value="<?php echo $next;?>">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
 <?php } ?>
