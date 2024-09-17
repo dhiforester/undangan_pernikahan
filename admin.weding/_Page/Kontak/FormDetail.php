@@ -102,6 +102,23 @@
             <?php echo $LabelSudahDihubungi; ?>
         </div>
     </div>
+    <div class="row mb-3">
+        <div class="col col-md-12">
+            <label for="link_undangan">Link Undangan</label>
+            <input type="text" class="form-control" id="link_undangan" value="<?php echo "$landing_page_url?id=$uid_kontak"; ?>">
+        </div>
+    </div>
+    <?php
+        //mengubah unicode
+        $TemplatePesanAll="$PesanTemplate%0AURL Undangan : $landing_page_url?id=$uid_kontak";
+        $decodedText = urldecode($TemplatePesanAll);
+    ?>
+    <div class="row mb-3">
+        <div class="col col-md-12">
+            <label for="template_pesan">Template Pesan</label>
+            <textarea class="form-control" name="template_pesan" id="template_pesan"><?php echo $decodedText; ?></textarea>
+        </div>
+    </div>
 <?php 
         }
     }

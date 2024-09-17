@@ -76,13 +76,13 @@
     },
     {
         "x": "16",
-        "yLog": 1,
+        "yLog": 2,
         "yLogHalaman": 0
     },
     {
         "x": "17",
         "yLog": 0,
-        "yLogHalaman": 0
+        "yLogHalaman": 18
     },
     {
         "x": "18",

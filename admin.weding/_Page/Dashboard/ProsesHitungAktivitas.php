@@ -17,7 +17,7 @@
         $JumlahLog = mysqli_num_rows(mysqli_query($Conn, "SELECT id_log FROM log WHERE datetime_log LIKE '%$WaktuPencarian%'"));
 
         // Jumlah Transaksi
-        $JumlahLogHalaman = mysqli_num_rows(mysqli_query($Conn, "SELECT id_log_halaman FROM log_halaman WHERE datetime_log LIKE '%$WaktuPencarian%'"));
+        $JumlahLogHalaman = mysqli_num_rows(mysqli_query($Conn, "SELECT id FROM  visitors WHERE datetime_visited LIKE '%$WaktuPencarian%'"));
 
         $data[] = array(
             'x' => $Waktu,

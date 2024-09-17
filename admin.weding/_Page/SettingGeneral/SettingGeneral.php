@@ -35,6 +35,14 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-3">
+                                <label for="author">Author</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" name="author" id="author" class="form-control" value="<?php echo "$author"; ?>">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
                                 <label for="alamat_bisnis">Alamat Bisnis/Perusahaan</label>
                             </div>
                             <div class="col-md-9">
@@ -91,10 +99,18 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-3">
-                                <label for="base_url">Base URL</label>
+                                <label for="base_url">Base URL Admin</label>
                             </div>
                             <div class="col-md-9">
                                 <input type="text" name="base_url" id="base_url" class="form-control" placeholder="https://" value="<?php echo "$base_url"; ?>">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label for="landing_page_url">Base URL Landing</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" name="landing_page_url" id="landing_page_url" class="form-control" placeholder="https://" value="<?php echo "$landing_page_url"; ?>">
                             </div>
                         </div>
                         <div class="row mb-3">

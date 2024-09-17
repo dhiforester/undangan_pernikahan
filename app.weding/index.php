@@ -52,7 +52,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title><?php echo "$title_page"; ?></title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="<?php echo "$deskripsi"; ?>" />
 		<meta name="keywords" content="<?php echo "$kata_kunci"; ?>" />
 		<meta name="author" content="<?php echo "$author"; ?>" />
@@ -93,10 +93,6 @@
 	</head>
 	<body>
 		<div class="fh5co-loader"></div>
-		<audio autoplay loop>
-			<source src="<?php echo "$base_url"; ?>/assets/img/konten/music.mp3" type="audio/mpeg">
-			Your browser does not support the audio element.
-		</audio>
 		<div id="page">
 			<nav class="fh5co-nav" role="navigation">
 				<div class="container">
@@ -552,6 +548,33 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content" style="background-image:url(<?php echo "$base_url"; ?>/assets/img/konten/<?php echo "$background_page3"; ?>);">
+					<div class="modal-body">
+						<div class="row mb-3">
+							<div class="col-md-12 text-center">
+								<span>UNDANGAN PERNIKAHAN</span>
+								<h1>Adi & Tari</h1>
+								<small>29 September 2024</small>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-12 text-center">
+								<p><br></p>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<div class="col-md-12 text-center mb-3">
+								<button type="button" class="btn btn-primary" id="startMusicButton">
+									Lihat Undangan
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<footer id="fh5co-footer" role="contentinfo">
 			<div class="container">
 				<div class="row copyright">
@@ -568,6 +591,11 @@
 								<li><a href="#"><i class="icon-dribbble"></i></a></li>
 							</ul>
 						</p> -->
+						<!-- Audio -->
+						<audio id="backgroundMusic" controls loop>
+							<source src="<?php echo "$base_url"; ?>/assets/img/konten/music.mp3" type="audio/mpeg">
+							Your browser does not support the audio element.
+						</audio>
 					</div>
 				</div>
 			</div>
@@ -609,7 +637,6 @@
 			});
 			document.addEventListener('DOMContentLoaded', function() {
 				let header = document.querySelector('#fh5co-header .snowflakes'); // Target container untuk salju
-
 				let numFlakes = 100; // Jumlah salju yang ingin ditampilkan
 				for (let i = 0; i < numFlakes; i++) {
 					let flake = document.createElement('div');
@@ -624,7 +651,6 @@
 			$(document).ready(function() {
 				let $verses = $(".quran-verse");
 				let index = 0;
-
 				// Mencari ketinggian maksimum dari semua elemen quran-verse
 				let maxHeight = 0;
 				$verses.each(function() {
@@ -645,7 +671,6 @@
 				}
 				$verses.eq(index).fadeIn(1000); // Menampilkan elemen pertama dengan efek fade
 				setTimeout(showNextVerse, 5000); // Memulai animasi setelah 5 detik
-
 				$("#ProsesKonfirmasiKehadiran").submit(function(event) {
 					event.preventDefault(); // Mencegah form submit default
 					let $button = $("#TombolKonfirmasi");
@@ -678,6 +703,16 @@
 							$button.text('Konfirmasi'); // Kembalikan teks tombol menjadi "Konfirmasi"
 						}
 					});
+				});
+				// Tampilkan modal ketika halaman dimuat
+				$('#welcomeModal').modal('show');
+				// Event listener untuk tombol mulai musik
+				$('#startMusicButton').click(function() {
+					var audio = document.getElementById('backgroundMusic');
+					audio.play().catch(function(error) {
+						console.log('Error playing audio:', error);
+					});
+					$('#welcomeModal').modal('hide');
 				});
 			});
 		</script>
