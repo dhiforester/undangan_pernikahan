@@ -1,0 +1,69 @@
+<?php
+    $title_page=GetDetailData($Conn,'setting_general','id_setting_general','1','title_page');
+    $kata_kunci=GetDetailData($Conn,'setting_general','id_setting_general','1','kata_kunci');
+    $deskripsi=GetDetailData($Conn,'setting_general','id_setting_general','1','deskripsi');
+    $author=GetDetailData($Conn,'setting_general','id_setting_general','1','author');
+    $alamat_bisnis=GetDetailData($Conn,'setting_general','id_setting_general','1','alamat_bisnis');
+    $email_bisnis=GetDetailData($Conn,'setting_general','id_setting_general','1','email_bisnis');
+    $telepon_bisnis=GetDetailData($Conn,'setting_general','id_setting_general','1','telepon_bisnis');
+    $favicon=GetDetailData($Conn,'setting_general','id_setting_general','1','favicon');
+    $logo=GetDetailData($Conn,'setting_general','id_setting_general','1','logo');
+    $base_url=GetDetailData($Conn,'setting_general','id_setting_general','1','base_url');
+    $landing_page_url=GetDetailData($Conn,'setting_general','id_setting_general','1','landing_page_url');
+    $script_pesan=GetDetailData($Conn,'setting_general','id_setting_general','1','script_pesan');
+    $konten_landing_page=GetDetailData($Conn,'setting_general','id_setting_general','1','konten_landing_page');
+    //Buka Konten JSON
+    $array_setting=json_decode($konten_landing_page, true);
+    $page_1=$array_setting['page_1'];
+    $page_2=$array_setting['page_2'];
+    $page_3=$array_setting['page_3'];
+    $page_4=$array_setting['page_4'];
+    //Page 1
+    $title_page_1=$page_1['title'];
+    $subtitle_page_1=$page_1['subtitle'];
+    $weding_date=$page_1['weding_date'];
+    $background_page_1=$page_1['background'];
+    //Page 2
+    $title_page_2=$page_2['title'];
+    $subtitle_1_page_2=$page_2['subtitle_1'];
+    $subtitle_2_page_2=$page_2['subtitle_2'];
+    $male_name=$page_2['male_name'];
+    $male_desciption=$page_2['male_desciption'];
+    $male_foto=$page_2['male_foto'];
+    $female_name=$page_2['female_name'];
+    $female_desciption=$page_2['female_desciption'];
+    $female_foto=$page_2['female_foto'];
+    //page_3
+    $title_page_3=$page_3['title'];
+    $subtitle_page_3=$page_3['subtitle'];
+    $event_title_1=$page_3['event_title_1'];
+    $event_start_1=$page_3['event_start_1'];
+    $event_end_1=$page_3['event_end_1'];
+    $event_daydate_1=$page_3['event_daydate_1'];
+    $event_place_1=$page_3['event_place_1'];
+    $event_title_2=$page_3['event_title_2'];
+    $event_start_2=$page_3['event_start_2'];
+    $event_end_2=$page_3['event_end_2'];
+    $event_daydate_2=$page_3['event_daydate_2'];
+    $event_place_2=$page_3['event_place_2'];
+    $background_page3=$page_3['background'];
+    //page_4
+    $title_page_4=$page_4['title'];
+    $subtitle_page_4=$page_4['subtitle'];
+    $group_1=$page_4['group_1'];
+    $title_group_1=$group_1['title'];
+    $subtitle_group_1=$group_1['subtitle'];
+    $image_group_1=$group_1['image'];
+    $group_2=$page_4['group_2'];
+    $title_group_2=$group_2['title'];
+    $subtitle_group_2=$group_2['subtitle'];
+    $image_group_2=$group_2['image'];
+    $group_3=$page_4['group_3'];
+    $title_group_3=$group_3['title'];
+    $subtitle_group_3=$group_3['subtitle'];
+    $image_group_3=$group_3['image'];
+    $group_4=$page_4['group_4'];
+    $title_group_4=$group_4['title'];
+    $subtitle_group_4=$group_4['subtitle'];
+    $image_group_4=$group_4['image'];
+?>
