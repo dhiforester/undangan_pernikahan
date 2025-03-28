@@ -7,6 +7,7 @@
         "MyProfile" => "_Page/MyProfile/ModalMyProfile.php",
         "Akses" => "_Page/Akses/ModalAkses.php",
         "Kontak" => "_Page/Kontak/ModalKontak.php",
+        "Komentar" => "_Page/Komentar/ModalKomentar.php",
         "SettingGeneral" => "_Page/SettingGeneral/ModalSettingGeneral.php",
         "SettingEmail" => "_Page/SettingService/ModalSettingService.php",
         "Aktivitas" => "_Page/Aktivitas/ModalAktivitas.php",

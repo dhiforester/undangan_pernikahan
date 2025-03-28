@@ -12,6 +12,9 @@
         if($Page=="Kontak"){
             echo '<script type="text/javascript" src="_Page/Kontak/Kontak.js"></script>';
         }
+        if($Page=="Komentar"){
+            echo '<script type="text/javascript" src="_Page/Komentar/Komentar.js"></script>';
+        }
         if($Page=="SettingGeneral"){
             echo '<script type="text/javascript" src="_Page/SettingGeneral/SettingGeneral.js"></script>';
         }

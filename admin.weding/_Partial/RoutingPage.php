@@ -9,6 +9,9 @@
         if($Page=="Kontak"){
             include "_Page/Kontak/Kontak.php";
         }
+        if($Page=="Komentar"){
+            include "_Page/Komentar/Komentar.php";
+        }
         if($Page=="SettingGeneral"){
             include "_Page/SettingGeneral/SettingGeneral.php";
         }

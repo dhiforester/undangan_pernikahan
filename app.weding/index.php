@@ -45,52 +45,23 @@
 	$JumlahKontak = mysqli_num_rows(mysqli_query($Conn, "SELECT id_kontak FROM kontak"));
 	//Menghitung Jumlah attender
 	$JumlahAttender = mysqli_num_rows(mysqli_query($Conn, "SELECT id_attended FROM attended"));
+	//Menampilkan Testimonial
+	$testimoni = [];
+	$query = "SELECT nama, pesan, datetime FROM testimoni WHERE status = 'Publish' ORDER BY datetime DESC";
+	$result = $Conn->query($query);
+
+	if ($result->num_rows > 0) {
+		while ($row = $result->fetch_assoc()) {
+			$testimoni[] = $row;
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html class="no-js">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title><?php echo "$title_page"; ?></title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="<?php echo "$deskripsi"; ?>" />
-		<meta name="keywords" content="<?php echo "$kata_kunci"; ?>" />
-		<meta name="author" content="<?php echo "$author"; ?>" />
-		<!-- Favicons -->
-		<link href="<?php echo "$base_url"; ?>/assets/img/<?php echo "$favicon"; ?>" rel="icon">
-		<link href="<?php echo "$base_url"; ?>/assets/img/<?php echo "$favicon"; ?>" rel="apple-touch-icon">
-		<meta property="og:title" content=""/>
-		<meta property="og:image" content=""/>
-		<meta property="og:url" content=""/>
-		<meta property="og:site_name" content=""/>
-		<meta property="og:description" content=""/>
-		<meta name="twitter:title" content="" />
-		<meta name="twitter:image" content="" />
-		<meta name="twitter:url" content="" />
-		<meta name="twitter:card" content="" />
-		<link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,400italic,700' rel='stylesheet' type='text/css'>
-		<link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
-		<!-- Animate.css -->
-		<link rel="stylesheet" href="css/animate.css">
-		<!-- Icomoon Icon Fonts-->
-		<link rel="stylesheet" href="css/icomoon.css">
-		<!-- Bootstrap  -->
-		<link rel="stylesheet" href="css/bootstrap.css">
-		<!-- Magnific Popup -->
-		<link rel="stylesheet" href="css/magnific-popup.css">
-		<!-- Owl Carousel  -->
-		<link rel="stylesheet" href="css/owl.carousel.min.css">
-		<link rel="stylesheet" href="css/owl.theme.default.min.css">
-		<!-- Theme style  -->
-		<link rel="stylesheet" href="css/style.css">
-		<link rel="stylesheet" href="css/custome.css">
-		<!-- Modernizr JS -->
-		<script src="js/modernizr-2.6.2.min.js"></script>
-		<!-- FOR IE9 below -->
-		<!--[if lt IE 9]>
-		<script src="js/respond.min.js"></script>
-		<![endif]-->
-	</head>
+	<?php
+		// Partial Page
+		include "_Partial/Head.php";
+	?>
 	<body>
 		<div class="fh5co-loader"></div>
 		<div id="page">
@@ -103,36 +74,34 @@
 							</div> -->
 						</div>
 						<div class="col-xs-10 text-right menu-1">
-							<!-- <ul>
-								<li class="active"><a href="index.html">Home</a></li>
-								<li><a href="about.html">Story</a></li>
-								<li class="has-dropdown">
-									<a href="services.html">Services</a>
-									<ul class="dropdown">
-										<li><a href="#">Web Design</a></li>
-										<li><a href="#">eCommerce</a></li>
-										<li><a href="#">Branding</a></li>
-										<li><a href="#">API</a></li>
-									</ul>
+							<ul>
+								<li class="active">
+									<a href=""><i class="icon icon-home"></i> Home</a>
 								</li>
-								<li class="has-dropdown">
-									<a href="gallery.html">Gallery</a>
-									<ul class="dropdown">
-										<li><a href="#">HTML5</a></li>
-										<li><a href="#">CSS3</a></li>
-										<li><a href="#">Sass</a></li>
-										<li><a href="#">jQuery</a></li>
-									</ul>
+								<li class="active">
+									<a href="https://www.instagram.com/adi.fsetiadi/">
+										<i class="icon icon-instagram"></i> Adi
+									</a>
 								</li>
-								<li><a href="contact.html">Contact</a></li>
-							</ul> -->
+								<li class="active">
+									<a href="https://www.instagram.com/taritar15">
+										<i class="icon icon-instagram"></i> Tari
+									</a>
+								</li>
+								<li class="active">
+									<a href="https://maps.app.goo.gl/XfSrLby4LqwniEHo9">
+										<i class="icon icon-map2"></i> Lokasi
+									</a>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
 			</nav>
-			<header id="fh5co-header" class="fh5co-cover" role="banner" style="background-image:url(<?php echo "$base_url"; ?>/assets/img/konten/<?php echo "$background_page_1"; ?>);" data-stellar-background-ratio="0.5">
+			<header id="fh5co-header" class="fh5co-cover" role="banner" style="background-image:url(<?php echo "$base_url"; ?>/assets/img/konten/page_1.png);" data-stellar-background-ratio="0.5">
 				<div class="overlay"></div>
-				<div class="snowflakes"></div> <!-- Kontainer untuk salju -->
+				<!--<div class="snowflakes"></div> -->
+				<!-- Kontainer untuk salju -->
 				<div class="container">
 					<div class="row">
 						<div class="col-md-8 col-md-offset-2 text-center">
@@ -148,25 +117,38 @@
 					</div>
 				</div>
 			</header>
+			<div id="fh5co-services" class="fh5co-section-gray">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 animate-box">
+							<div class="fh5co-video fh5co-bg">
+								<video width="100%" controls autoplay muted loop>
+									<source src="<?php echo "$base_url"; ?>/assets/img/konten/vidio.mp4" type="video/mp4">
+									Your browser does not support the video tag.
+								</video>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div id="fh5co-couple">
-				<div class="container mb-5">
+				<div class="container">
 					<div class="row">
 						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
-							<h2><?php echo "$title_page_2"; ?></h2>
+							<h2>Assalamualaikum Wr Wb</h2>
 							<?php
 								//Apabila ID Undangan ada
 								if(!empty($NamaUndangan)){
 									echo '<h3>Yth. '.$NamaUndangan.'</h3>';
 								}
 							?>
-							<p><?php echo "$subtitle_1_page_2"; ?></p>
-							<p></p>
+							<p>Dengan penuh rasa syukur dan kebahagiaan, kami mengundang Anda untuk hadir pada acara pernikahan kami </p>
 						</div>
 					</div>
-					<div class="couple-wrap animate-box mb-5">
+					<div class="couple-wrap animate-box">
 						<div class="couple-half">
 							<div class="groom">
-								<img src="<?php echo "$base_url"; ?>/assets/img/konten/<?php echo "$male_foto"; ?>" alt="groom" class="img-responsive">
+								<img src="<?php echo "$base_url"; ?>/assets/img/konten/male.png" alt="groom" class="img-responsive">
 							</div>
 							<div class="desc-groom">
 								<h3>Adi Fuji Stiadi</h3>
@@ -180,13 +162,12 @@
 										<i>Ibu Sukmawati (Alm)</i>
 									</small>
 								</p>
-								<span>Kelurahan Pisangan Baru<br>Matraman Jakarta Timur</span>
 							</div>
 						</div>
 						<p class="heart text-center"><i class="icon-heart2"></i></p>
 						<div class="couple-half">
 							<div class="bride">
-								<img src="<?php echo "$base_url"; ?>/assets/img/konten/<?php echo "$female_foto"; ?>" alt="groom" class="img-responsive">
+								<img src="<?php echo "$base_url"; ?>/assets/img/konten/female.png" alt="groom" class="img-responsive">
 							</div>
 							<div class="desc-bride">
 								<h3>Siti Lestari</h3>
@@ -200,26 +181,14 @@
 										<i>Ibu Tarsih</i>
 									</small>
 								</p>
-								<span>Kelurahan Ciporang <br>Kabupaten Kuningan</span>
 							</div>
 						</div>
 					</div>
-					<p><br></p>
-					<p><br></p>
-					<p><br></p>
-					<p><br></p>
-					<p><br></p>
 				</div>
 			</div>
 			<div id="fh5co-event" class="fh5co-bg" style="background-image:url(<?php echo "$base_url"; ?>/assets/img/konten/<?php echo "$background_page3"; ?>);">
 				<div class="overlay"></div>
 				<div class="container">
-					<div class="row">
-						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
-							<span><?php echo "$subtitle_page_3"; ?></span>
-							<h2><?php echo "$title_page_3"; ?></h2>
-						</div>
-					</div>
 					<div class="row">
 						<div class="display-t">
 							<div class="display-tc">
@@ -229,7 +198,7 @@
 											<h3>Hari, Tanggal</h3>
 											<div class="event-col-12">
 												<i class="icon-calendar"></i>
-												<span><?php echo "$event_daydate_1"; ?></span>
+												<span>Minggu, 29/09/2024</span>
 											</div>
 										</div>
 									</div>
@@ -238,7 +207,7 @@
 											<h3>Jam</h3>
 											<div class="event-col-12">
 												<i class="icon-clock"></i>
-												<span><?php echo "$event_start_2 s/d $event_end_2"; ?></span>
+												<span>07.30 s/d 11.00 WIB</span>
 											</div>
 										</div>
 									</div>
@@ -247,24 +216,7 @@
 											<h3>Tempat/Lokasi</h3>
 											<div class="event-col-12">
 												<i class="icon-map"></i>
-												<span><?php echo "$event_place_1"; ?></span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="display-t">
-							<div class="display-tc">
-								<div class="col-md-12 mb-4">
-									<div class="col-md-12 col-sm-12 text-center">
-										<div class="event-wrap animate-box">
-											<h3>Tempat/Lokasi</h3>
-											<div class="event-col-12">
-												<i class="icon-map"></i>
-												<span><?php echo "$event_place_1"; ?></span>
+												<span>Mayang Catering - Kebon Kaisar (Jl. RE. Martadinata No.176, Ciporang Kuningan)</span>
 											</div>
 										</div>
 									</div>
@@ -277,9 +229,8 @@
 			<div id="fh5co-couple">
 				<div class="container">
 					<p><br></p>
-					<p><br></p>
 					<div class="row">
-						<div class="col-md-12 text-center fh5co-heading animate-box">
+						<div class="col-md-12 text-center fh5co-heading animate-box quran-quote">
 							<div class="quran-verse">
 								<h3 class="animate-verse">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنفُسِكُمْ أَزْوَاجًا لِّيَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ</h3>
 								<em class="animate-verse">"Dari tanda-tanda (kebesaran-Nya) ialah bahwa Dia menciptakan untukmu pasangan-pasangan dari jenismu sendiri supaya kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antara kamu rasa kasih dan sayang. Sesungguhnya dalam hal ini benar-benar terdapat tanda-tanda bagi kaum yang berpikir."<br>(QS. Ar-Rum: 21)</em>
@@ -296,17 +247,104 @@
 					</div>
 				</div>
 			</div>
-			<div id="fh5co-gallery">
+			<div id="fh5co-started" class="fh5co-bg" style="background-image:url(<?php echo "$base_url"; ?>/assets/img/konten/testimoni_bg.png);">
+				<div class="overlay"></div>
 				<div class="container">
-					<div class="row">
-						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
-							<h2>Album foto</h2>
+					<div class="row animate-box">
+						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+							<h2>Kirim Ucapan</h2>
+							<p><i>Kirim ucapan kepada pengantin</i></p>
 						</div>
 					</div>
+					<div class="row animate-box">
+						<div class="col-md-12 col-md-offset-1">
+							<form action="javascript:void(0);" class="form-inline" id="ProsesKirimUcapan">
+								<div class="col-md-12 mb-3">
+									<div class="form-group">
+										<label for="nama_pengirim" class="sr-only">Nama</label>
+										<input type="text" class="form-control" id="nama_pengirim" name="nama_pengirim" placeholder="Nama">
+									</div>
+								</div>
+								<div class="col-md-12 mb-3">
+									<div class="form-group">
+										<label for="pesan" class="sr-only">Isi Pesan</label>
+										<textarea name="pesan" id="pesan" class="form-control" placeholder="Isi Pesan"></textarea>
+									</div>
+								</div>
+								<div class="col-md-12 mb-3">
+									<button type="submit" class="btn btn-default btn-block" id="TombolKirimUcapan">Kirim</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="fh5co-testimonial" class="testimonial-scroll">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 text-center fh5co-heading">
+							<span>Teman Dan Keluarga</span>
+							<h2>Do'a dan Ucapan Terbaik</h2>
+						</div>
+						<div class="col-md-12">
+							<div class="scroll-container">
+								<div class="scroll-wrapper">
+									<?php foreach ($testimoni as $index => $item): ?>
+										<div class="card">
+											<div class="card-body">
+												<b><?php echo htmlspecialchars($item['nama']); ?></b><br>
+												<span>
+													<small><?php echo date('d/m/Y H:i', strtotime($item['datetime'])); ?></small>
+												</span>
+												<p>
+													<i><?php echo html_entity_decode(htmlspecialchars($item['pesan'])); ?></i>
+												</p>
+											</div>
+										</div>
+									<?php endforeach; ?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="fh5co-started" class="fh5co-bg" style="background-image:url(<?php echo "$base_url"; ?>/assets/img/konten/gift_bg.png);">
+				<div class="overlay"></div>
+				<div class="container">
+					<div class="row animate-box">
+						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+							<h2>Kirim Kado Pernikahan</h2>
+						</div>
+					</div>
+					<div class="row animate-box">
+						<div class="col-md-6 mb-3">
+							<div class="card gift-information">
+								<div class="card-body text-center">
+									<h2 class="text-gift">Akun OVO</h2>
+									<p class="text-gift">+6289637975560 (Siti Lestari)</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 mb-3">
+							<div class="card gift-information">
+								<div class="card-body text-center">
+									<h2 class="text-gift">Alamat Pengiriman</h2>
+									<p class="text-gift">
+										Jalan Anggrek 4 No 15 RT 20 RW 04<br>
+										Perumnas-Ciporang Kabupaten Kuningan
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="fh5co-gallery">
+				<div class="container">
 					<div class="row row-bottom-padded-md">
 						<div class="col-md-12">
 							<ul id="fh5co-gallery-list">
-								<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/gallery-1.png); "> 
+								<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/1.png); "> 
 								<!-- <a href="images/gallery-1.jpg">
 									<div class="case-studies-summary">
 										<span>14 Photos</span>
@@ -314,7 +352,7 @@
 									</div>
 								</a> -->
 							</li>
-							<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/gallery-2.png); ">
+							<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/2.png); ">
 								<!-- <a href="#" class="color-2">
 									<div class="case-studies-summary">
 										<span>30 Photos</span>
@@ -322,7 +360,7 @@
 									</div>
 								</a> -->
 							</li>
-							<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/gallery-3.png); ">
+							<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/3.png); ">
 								<!-- <a href="#" class="color-3">
 									<div class="case-studies-summary">
 										<span>90 Photos</span>
@@ -330,7 +368,7 @@
 									</div>
 								</a> -->
 							</li>
-							<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/gallery-4.png); ">
+							<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/4.png); ">
 								<!-- <a href="#" class="color-4">
 									<div class="case-studies-summary">
 										<span>12 Photos</span>
@@ -339,7 +377,7 @@
 								</a> -->
 							</li>
 
-								<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/gallery-5.png); ">
+								<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/5.png); ">
 									<!-- <a href="#" class="color-3">
 										<div class="case-studies-summary">
 											<span>50 Photos</span>
@@ -347,7 +385,7 @@
 										</div>
 									</a> -->
 								</li>
-								<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/gallery-6.png); ">
+								<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/6.png); ">
 									<!-- <a href="#" class="color-4">
 										<div class="case-studies-summary">
 											<span>45 Photos</span>
@@ -355,7 +393,7 @@
 										</div>
 									</a> -->
 								</li>
-								<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/gallery-7.png); ">
+								<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/7.png); ">
 									<!-- <a href="<?php echo "$base_url"; ?>/assets/img/konten/gallery-7.png" class="color-4">
 										<div class="case-studies-summary">
 											<span>35 Photos</span>
@@ -363,7 +401,7 @@
 										</div>
 									</a> -->
 								</li>
-								<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/gallery-8.png); "> 
+								<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/8.png); "> 
 									<!-- <a href="#" class="color-5">
 										<div class="case-studies-summary">
 											<span>90 Photos</span>
@@ -371,7 +409,7 @@
 										</div>
 									</a> -->
 								</li>
-								<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/gallery-9.png); ">
+								<li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url(<?php echo "$base_url"; ?>/assets/img/konten/9.png); ">
 									<!-- <a href="<?php echo "$base_url"; ?>/assets/img/konten/gallery-9.png" class="color-6">
 										<div class="case-studies-summary">
 											<span>56 Photos</span>
@@ -385,7 +423,7 @@
 				</div>
 			</div>
 
-		<div id="fh5co-counter" class="fh5co-bg fh5co-counter" style="background-image:url(<?php echo "$base_url"; ?>/assets/img/konten/bg_anim2.webp);">
+		<div id="fh5co-counter" class="fh5co-bg fh5co-counter" style="background-image:url(<?php echo "$base_url"; ?>/assets/img/konten/ezgif-7-2675b232af.gif);">
 			<div class="overlay"></div>
 			<div class="container">
 				<div class="row">
@@ -432,34 +470,20 @@
 						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
 							<h2>Lokasi Acara</h2>
 							<span>
-								Mayang Catering Kuningan<br>
-								Jl. RE. Martadinata No.176, Ciporang, Kec. Kuningan, Kabupaten Kuningan, Jawa Barat 45514
+								<b>Mayang Catering</b><br>
+								Kebon Kaisar (Jl. RE. Martadinata No.176, Ciporang Kuningan)
 							</span>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12 animate-box">
-							<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d247.52067911836815!2d108.50474506616595!3d-6.970237115524026!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f16a401c132ef%3A0x567725693179992d!2sMayang%20Catering%20Kuningan!5e0!3m2!1sen!2sid!4v1726581297956!5m2!1sen!2sid" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+						<div class="col-md-8 col-md-offset-2 text-center">
+							<a href="https://maps.app.goo.gl/XfSrLby4LqwniEHo9" class="Link-Lokasi">
+								<i class="icon icon-map2"></i> Lihat Lokasi
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div id="fh5co-services" class="fh5co-section-gray">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 animate-box">
-						<div class="fh5co-video fh5co-bg">
-							<video width="100%" controls autoplay muted loop>
-								<source src="<?php echo "$base_url"; ?>/assets/img/konten/vidio.mp4" type="video/mp4">
-								Your browser does not support the video tag.
-							</video>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="fh5co-started" class="fh5co-bg" style="background-image:url(<?php echo "$base_url"; ?>/assets/img/konten/bg_anim1.gif);">
+		<div id="fh5co-started" class="fh5co-bg" style="background-image:url(<?php echo "$base_url"; ?>/assets/img/konten/bg_anim1.png);">
 			<div class="overlay"></div>
 			<div class="container">
 				<div class="row animate-box">
@@ -494,6 +518,61 @@
 								<button type="submit" class="btn btn-default btn-block" id="TombolKonfirmasi">Konfirmasi</button>
 							</div>
 						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal untuk menampilkan kirim pesan sukses -->
+		<div id="ModalKirimPesanBerhasil" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content border-0">
+					<div class="modal-body border-0 bg-success">
+						<div class="row mb-3 mt-5">
+							<div class="col-md-12 text-center">
+								
+							</div>
+						</div>
+						<div class="row mb-3 mt-5">
+							<div class="col-md-12 text-center">
+								<h3>Kirim Pesan Berhasil</h3>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 text-center">
+								<p>
+									<i>Terima kasih sudah mengirimkan pesan ucapan dalam acara pernikahan kami.</i>
+								</p>
+							</div>
+							<div class="col-md-12 text-center">
+								<small>
+									<i>Kami akan segera melakukan verifikasi untuk setiap pesan yang sudah masuk</i>
+								</small>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer border-0">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal untuk menampilkan kirim pesan gagal -->
+		<div id="ModalKirimPesanGagal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Kirim Pesan Gagal</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p class="text-danger" id="NotifikasiKirimPesanGagal">
+							<!-- Penyebab kegagalan akan ditampilkan disini -->
+						</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
 					</div>
 				</div>
 			</div>
@@ -548,10 +627,20 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+		<!-- Modal -->
+        <div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content" style="background-image:url(<?php echo "$base_url"; ?>/assets/img/konten/<?php echo "$background_page3"; ?>);">
 					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<?php
+									if(!empty($NamaUndangan)){
+										echo '<h1 class="NamaUndangan">Yth. '.$NamaUndangan.'</h1>';
+									}
+								?>
+							</div>
+						</div>
 						<div class="row mb-3">
 							<div class="col-md-12 text-center">
 								<span>UNDANGAN PERNIKAHAN</span>
@@ -625,97 +714,7 @@
 		<script src="js/simplyCountdown.js"></script>
 		<!-- Main -->
 		<script src="js/main.js"></script>
-		<script>
-			// default example
-			simplyCountdown('.simply-countdown-one', {
-				year: 2024,
-				month: 09,
-				day: 29,
-				hours: 0,
-				minutes: 0,
-				seconds: 0
-			});
-			document.addEventListener('DOMContentLoaded', function() {
-				let header = document.querySelector('#fh5co-header .snowflakes'); // Target container untuk salju
-				let numFlakes = 100; // Jumlah salju yang ingin ditampilkan
-				for (let i = 0; i < numFlakes; i++) {
-					let flake = document.createElement('div');
-					flake.className = 'snowflake';
-					flake.style.left = Math.random() * 100 + 'vw'; // Menentukan posisi horizontal secara acak
-					// Meningkatkan durasi animasi untuk memperlambat turunnya salju
-					flake.style.animationDuration = (Math.random() * 10) + 5 + 's'; // Ubah angka di sini, semakin besar semakin lambat
-					flake.style.animationDelay = Math.random() * 5 + 's'; // Delay untuk membuat salju tidak jatuh bersamaan
-					header.appendChild(flake);
-				}
-			});
-			$(document).ready(function() {
-				let $verses = $(".quran-verse");
-				let index = 0;
-				// Mencari ketinggian maksimum dari semua elemen quran-verse
-				let maxHeight = 0;
-				$verses.each(function() {
-					let height = $(this).outerHeight();
-					if (height > maxHeight) {
-						maxHeight = height;
-					}
-				});
-				// Mengatur ketinggian kontainer sesuai dengan elemen yang paling tinggi
-				$(".fh5co-heading").css("min-height", maxHeight);
-				function showNextVerse() {
-					$verses.eq(index).fadeOut(1000, function() {
-						// Callback setelah elemen menghilang
-						index = (index + 1) % $verses.length; // Mengatur indeks ke elemen berikutnya
-						$verses.eq(index).fadeIn(1000); // Menampilkan elemen berikutnya dengan efek fade
-					});
-					setTimeout(showNextVerse, 5000); // Menampilkan elemen berikutnya setelah 5 detik
-				}
-				$verses.eq(index).fadeIn(1000); // Menampilkan elemen pertama dengan efek fade
-				setTimeout(showNextVerse, 5000); // Memulai animasi setelah 5 detik
-				$("#ProsesKonfirmasiKehadiran").submit(function(event) {
-					event.preventDefault(); // Mencegah form submit default
-					let $button = $("#TombolKonfirmasi");
-					$button.text('Loading...'); // Ubah teks tombol menjadi "Loading..."
-
-					// Mengirimkan data form menggunakan AJAX
-					$.ajax({
-						url: '_Config/ProsesKonfirmasi.php', // URL untuk mengirim data
-						type: 'POST',
-						data: $(this).serialize(), // Mengambil semua data form
-						dataType: 'json', // Mengharapkan response JSON
-						success: function(response) {
-							if (response.success) {
-								$('#ProsesKonfirmasiKehadiran')[0].reset(); // Reset form
-								$('#modalBerhasil').modal('show'); // Tampilkan modal sukses
-							} else {
-								// Tampilkan modal gagal dengan pesan error
-								$('#NotifikasiProsesGagal').text(response.message);
-								$('#modalGagal').modal('show');
-							}
-						},
-						error: function(xhr, status, error) {
-							// Debugging: Tampilkan error response di console
-							console.log("Error Status: ", status);
-							console.log("Error Thrown: ", error);
-							console.log("Response Text: ", xhr.responseText);
-							alert('Terjadi kesalahan, silakan coba lagi.');
-						},
-						complete: function() {
-							$button.text('Konfirmasi'); // Kembalikan teks tombol menjadi "Konfirmasi"
-						}
-					});
-				});
-				// Tampilkan modal ketika halaman dimuat
-				$('#welcomeModal').modal('show');
-				// Event listener untuk tombol mulai musik
-				$('#startMusicButton').click(function() {
-					var audio = document.getElementById('backgroundMusic');
-					audio.play().catch(function(error) {
-						console.log('Error playing audio:', error);
-					});
-					$('#welcomeModal').modal('hide');
-				});
-			});
-		</script>
+		<script src="js/custome.js"></script>
 	</body>
 </html>
 

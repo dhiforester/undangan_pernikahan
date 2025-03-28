@@ -137,6 +137,62 @@ div #startMusicButton {
     padding: 10px 20px !important;
     font-size: 1.2em !important;
 }
-h1 .NamaUndangan{
-    font-family: 'Times New Roman', Times, serif;
+
+/* Style Untuk Halaman Komentar  */
+/* Styling untuk testimonial */
+.testimonial-scroll {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.testimonial-scroll .scroll-container {
+    height: 80vh; /* Atur sesuai kebutuhan */
+    overflow-y: scroll; /* Enable vertical scrolling */
+    padding: 10px; /* Jarak dari tepi */
+}
+
+.testimonial-scroll .scroll-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Jarak antar card */
+    width: 100%;
+}
+
+.testimonial-scroll .card {
+    background-color: rgba(255, 255, 255, 0.8); /* Putih dengan transparansi */
+    border: 1px solid #b37a6e; /* Border coklat pastel */
+    border-radius: 10px; /* Radius border yang menarik */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Efek timbul */
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 10px 0; /* Jarak vertikal antar card */
+    text-align: left; /* Align text to left */
+}
+
+/* Styling untuk text dalam card */
+.testimonial-scroll .card .card-body {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Text Gift  */
+
+/* Style untuk card dalam kontainer */
+.gift-information {
+    border: 2px solid white; /* Garis border putih */
+    border-radius: 10px; /* Radius border yang menarik */
+    background-color: rgba(255, 255, 255, 0.8); /* Transparansi background */
+    padding: 15px; /* Padding di semua sisi */
+    margin-bottom: 10px; /* Margin bawah jika diperlukan */
+}
+
+/* Style khusus untuk teks dalam card */
+.text-gift {
+    color: #333;
+}
+
+/* Jika Anda ingin menambahkan efek bayangan untuk card */
+.gift-information {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Bayangan lembut */
 }
